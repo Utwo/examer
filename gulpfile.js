@@ -12,7 +12,7 @@ var csslint = require('gulp-csslint');
 var browserSync = require('browser-sync');
 
 var base_path = 'resources/assets/';
-var build_path = 'public/';
+var build_path = 'public_html/';
 
 // Configure the proxy server for livereload
 var proxyServer = "http://examiner.dev:80",

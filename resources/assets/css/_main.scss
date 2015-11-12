@@ -27,40 +27,24 @@ body {
   background: #fff;
 }
 
-.table-project .table-project-other {
-  position: relative;
-  overflow: hidden;
-}
-
-.form-grade {
-  transition: .6s opacity;
-  opacity: .4;
-  transform: translateY(-100px) scale(0);
-  position: absolute;
-  width: 100%;
-  line-height: 3em;
-  height: 100%;
-  top: 0;
-  left: 0;
+.form-grade select {
   background: $brand-info;
-  vertical-align: middle;
-}
-
-.form-show .form-grade {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.close-button {
-  font-size: 1.6em;
-  background: $brand-primary;
-  width: 1.4em;
-  height: 1.4em;
-  display: inline-block;
-  vertical-align: middle;
-  border-radius: .3em;
+  border: 1px solid $brand-primary;
+  box-shadow: none;
   color: #fff;
-  line-height: 1.4em;
+  outline: 0;
+}
+
+.form-grade option {
+  padding: .6em;
+}
+
+.form-grade select:focus {
+  box-shadow: 0 !important;
+}
+
+.form-grade option:checked {
+  background: linear-gradient(90deg, $brand-primary 10%, lighten($brand-primary, 6%) 90%);
 }
 
 .footer {

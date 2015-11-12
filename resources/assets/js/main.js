@@ -1,12 +1,14 @@
 $(document).ready(function () {
     $('.js-form-show').click(function (e) {
         e.preventDefault();
-        $('.form-show').removeClass('form-show');
-        $(this).parent().addClass('form-show');
-    });
-
-    $('.js-form-close').click(function (e) {
-        e.preventDefault();
-        $(this).parent().parent().parent().removeClass('form-show');
-    });
+        var form = $(this).parent().find('.form-grade');
+        $.magnificPopup.open({
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            items: {
+                src: form,
+                type: 'inline',
+            }
+        });
+    })
 });
