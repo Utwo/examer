@@ -12,7 +12,7 @@ class StoreProjectRequest extends Request {
      */
     public function authorize()
     {
-        if (auth()->user()->Project->count() >= 3) {
+        if (auth()->user()->Project->count() >= config('settings.max_project_upload')) {
             return false;
         }
         return true;
@@ -26,6 +26,7 @@ class StoreProjectRequest extends Request {
     public function rules()
     {
         return [
+            'name' => 'required|string',
             'upload' => 'required|mimes:doc,docx,rtf,txt,pdf,ppt|max:' . config('filesystems.max_file_size')
         ];
     }

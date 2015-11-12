@@ -24,10 +24,11 @@ Route::group(['middleware' => 'auth'], function () {
     post('/grade', ['as' => 'add_grade', 'uses' => 'GradeController@store']);
 
     post('/project', ['as' => 'add_project', 'uses' => 'ProjectController@store']);
+    delete('/project', ['as' => 'delete_project', 'uses' => 'ProjectController@delete']);
     get('/project/{id}', ['as' => 'download_project', 'uses' => 'ProjectController@download']);
 
     get('logout', ['as' => 'logout', function () {
         Auth::logout();
-        redirect()->route('login');
+        return redirect()->route('show_login');
     }]);
 });

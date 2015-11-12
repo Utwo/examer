@@ -16,4 +16,16 @@ class Project extends Model {
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function getMediaAttribute(){
+        $sum = 0;
+        $count = $this->Grade->count();
+        foreach($this->Grade as $grade){
+            $sum += $grade->grade;
+        }
+        if($count == 0){
+            return null;
+        }
+        return $sum / $count;
+    }
 }

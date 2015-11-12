@@ -16,7 +16,7 @@ class StoreGradeRequest extends Request
     public function authorize()
     {
         $project = Project::with('Grade')->findOrFail($this->project_id);
-        if($project->Grade->count() >= 3){
+        if($project->Grade->count() >= config('settings.max_grade_add')){
             return false;
         }
         if($project->user_id == Auth::id()){

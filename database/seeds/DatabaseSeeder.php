@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
 
         factory(User::class, 5)->create();
-        factory(Project::class, 15)->create();
-        factory(Grade::class, 45)->create();
+        factory(Project::class, 10)->create();
+        factory(Grade::class, 20)->create();
 
         Model::reguard();
     }

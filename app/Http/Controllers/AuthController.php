@@ -49,7 +49,7 @@ class AuthController extends Controller {
 
         $user = User::firstOrCreate(['name' => $username]);
         Auth::login($user);
-        return redirect()->intended('/profile');
+        return redirect()->intended(route('profile'));
 
     }
 
@@ -57,9 +57,41 @@ class AuthController extends Controller {
     {
         $user = Auth::user()->load(['Project' => function ($query) {
             return $query->with('Grade');
-        }]);
-
+        }])->load('Grade');
         $projects = Project::where('user_id', '<>', Auth::id())->with('Grade')->get();
-        return view('profile')->withUser($user)->withProjects($projects);
+        $warning_string = $this->make_warning_string($user->Grade->count(), $user->Project->count());
+        return view('profile')->withUser($user)->withProjects($projects)->withWarningMessage($warning_string);
+    }
+
+    private function make_warning_string($grade_count, $project_count)
+    {
+        $string = 'You need to add ';
+        $ok = 0;
+        $remaining_project = config('settings.max_project_upload') - $project_count;
+        $remaining_grade = config('settings.max_grade_add') - $grade_count;
+        if ($remaining_grade > 0) {
+            $union = ' and ';
+            $ok = 1;
+            $grade_txt = 'grades';
+            if ($remaining_grade == 1) {
+                $grade_txt = 'grade';
+            }
+            if($remaining_project == 0){
+                $union = '.';
+            }
+            $string .= $remaining_grade . ' more ' . $grade_txt . $union;
+        }
+        if ($remaining_project > 0) {
+            $ok = 1;
+            $project_txt = 'projects';
+            if ($remaining_project == 1) {
+                $project_txt = 'project';
+            }
+            $string .= $remaining_project . ' more ' . $project_txt . '.';
+        }
+        if ($ok) {
+            return $string;
+        }
+        return null;
     }
 }
