@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Project;
 
 class StoreGradeRequest extends Request
@@ -19,10 +18,10 @@ class StoreGradeRequest extends Request
         if($project->Grade->count() >= config('settings.max_grade_add')){
             return false;
         }
-        if($project->user_id == Auth::id()){
+        if($project->user_id == auth()->user()->id){
             return false;
         }
-        if($project->Grade->where('user_id', Auth::id())->count() != 0){
+        if($project->Grade->where('user_id', auth()->user()->id)->count() != 0){
             return false;
         }
         return true;

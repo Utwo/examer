@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Grade;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreGradeRequest;
 
 class GradeController extends Controller
@@ -20,8 +19,8 @@ class GradeController extends Controller
      */
     public function store(StoreGradeRequest $request)
     {
-        $request->merge(['user_id' => Auth::id()]);
-        Grade::create($request->all());
+        $request->merge(['user_id' => auth()->user()->id]);
+        Grade::create($request->only('grade', 'user_id', 'project_id'));
         $request->session()->flash('notification', 'Grade added');
         return redirect()->back();
     }

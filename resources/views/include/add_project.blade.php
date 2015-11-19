@@ -1,9 +1,9 @@
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        @if(! is_null($warning_message))
+    @if(! is_null($warning_message))
+        <div class="panel-heading">
             <p class="panel-title">{{$warning_message}}</p>
-        @endif
-    </div>
+        </div>
+    @endif
     @if($user->Project->count() < config('settings.max_project_upload'))
         <div class="panel-body">
             <form class="form-inline" method="post" action="{{route('add_project')}}" enctype="multipart/form-data">

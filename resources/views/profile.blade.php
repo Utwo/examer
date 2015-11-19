@@ -23,7 +23,7 @@
                         .{{$project->extension}}</a></td>
                 @include('include.grade')
                 <td class="text-center">
-                    @if($project->Grade->count() > 0)
+                    @if($project->Grade->count() == 0)
                         <form action="{{route('delete_project')}}" method="post">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="hidden" name="_method" value="delete">
@@ -50,7 +50,7 @@
                 @include('include.grade')
                 <td class="text-center">
                     @if($project->Grade->count() < config('settings.max_grade_add')
-                    && $project->Grade->where('user_id', Auth::id())->count() == 0
+                    && $project->Grade->where('user_id', auth()->user()->id)->count() == 0
                     && $user->Grade->count() < config('settings.max_grade_add'))
                         <a class="btn btn-sm btn-default js-form-show" href="#">Add grade</a>
                         <div class="form-grade mfp-hide container-fluid text-center">

@@ -11,7 +11,7 @@
 <header class="navbar navbar-default navbar-custom">
     <div class="container">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand">Examiner</a>
+            <a href="{{route('profile')}}" class="navbar-brand">Examiner</a>
         </div>
         @if(Auth::check())
             <nav>

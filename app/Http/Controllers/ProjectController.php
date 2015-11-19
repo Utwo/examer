@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Project;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller {
 
@@ -24,7 +23,7 @@ class ProjectController extends Controller {
         if ($request->hasFile('upload') && $request->file('upload')->isValid()) {
             $extension = $request->file('upload')->getClientOriginalExtension();
 
-            $project = Project::create(['name' => $request->name, 'extension' => $extension, 'user_id' => Auth::id()]);
+            $project = Project::create(['name' => $request->name, 'extension' => $extension, 'user_id' => auth()->user()->id]);
             Storage::put('/projects/' . $project->id . '.' . $extension,
                 file_get_contents($request->file('upload')->getRealPath()));
             $request->session()->flash('notification', 'Upload successful');
@@ -66,7 +65,7 @@ class ProjectController extends Controller {
         }
 
         Storage::delete('/projects/' . $project->id . '.' . $project->extension);
-        Project::destroy($request->id);
+        Project::destroy($project->id);
         $request->session()->flash('notification', 'Project deleted');
         return redirect()->back();
     }

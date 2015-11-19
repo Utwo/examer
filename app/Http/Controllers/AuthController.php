@@ -6,7 +6,6 @@ use App\Project;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -48,17 +47,17 @@ class AuthController extends Controller {
         }
 
         $user = User::firstOrCreate(['name' => $username]);
-        Auth::login($user);
+        auth()->login($user);
         return redirect()->intended(route('profile'));
 
     }
 
     public function show()
     {
-        $user = Auth::user()->load(['Project' => function ($query) {
+        $user = auth()->user()->load(['Project' => function ($query) {
             return $query->with('Grade');
         }])->load('Grade');
-        $projects = Project::where('user_id', '<>', Auth::id())->with('Grade')->get();
+        $projects = Project::where('user_id', '<>', auth()->user()->id)->with('Grade')->get();
         $warning_string = $this->make_warning_string($user->Grade->count(), $user->Project->count());
         return view('profile')->withUser($user)->withProjects($projects)->withWarningMessage($warning_string);
     }
