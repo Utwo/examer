@@ -28,7 +28,7 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Grade::class, function (Faker\Generator $faker) {
     return [
-        'grade' => $faker->numberBetween(0, 3),
+        'grade' => $faker->numberBetween(1, 3),
         'user_id' => App\User::all()->random(1)->id,
         'project_id' => App\Project::all()->random(1)->id,
     ];

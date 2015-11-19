@@ -45,4 +45,20 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany(Grade::class);
     }
+
+    public function getMediaAttribute(){
+        $sum = 0;
+        $projects = $this->Project;
+        if($projects->count() == 0){
+            return 0;
+        }
+        foreach($projects as $project){
+            $media_proj = $project->Media;
+            if(is_null($media_proj)){
+                return null;
+            }
+            $sum += $project->Media;
+        }
+        return round($sum / $projects->count(), 2);
+    }
 }

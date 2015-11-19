@@ -20,6 +20,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     get('/', ['as' => 'profile', 'uses' => 'AuthController@show']);
+    get('/admin', ['as' => 'admin', 'uses' => 'AuthController@admin']);
 
     post('/grade', ['as' => 'add_grade', 'uses' => 'GradeController@store']);
 

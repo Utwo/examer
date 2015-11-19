@@ -52,6 +52,16 @@ class AuthController extends Controller {
 
     }
 
+    public function admin(){
+        if(auth()->user()->name == 'User 2'){
+            $users = User::with(['Project' => function ($query) {
+                return $query->with('Grade');
+            }])->get();
+            return view('admin')->withUsers($users);
+        }
+        return abort(403);
+    }
+
     public function show()
     {
         $user = auth()->user()->load(['Project' => function ($query) {
