@@ -19,7 +19,7 @@ class Project extends Model {
 
     public function getMediaAttribute(){
         $count = $this->Grade->count();
-        if($count < config('settings.max_grade_add')){
+        if($count < config('settings.grade_for_project')){
             return null;
         }
         $sum = $this->Grade->sum('grade');

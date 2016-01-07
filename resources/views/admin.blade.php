@@ -9,7 +9,7 @@
             <th>User</th>
             <th>Submited project</th>
             <th>Submited grades</th>
-            <th>Recieved grades</th>
+            <th>Received grades</th>
             <th>Media</th>
         </tr>
         </thead>

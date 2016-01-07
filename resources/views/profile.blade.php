@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th>Project name</th>
-            @for($i=1; $i <= config('settings.max_grade_add'); $i++)
+            @for($i=1; $i <= config('settings.grade_for_project'); $i++)
                 <th>Note {{$i}}</th>
             @endfor
             <th>Media</th>
@@ -36,7 +36,7 @@
         @endforeach
         <tr class="text-center text-info info">
             <td>------</td>
-            @for($i=1; $i <= config('settings.max_grade_add'); $i++)
+            @for($i=1; $i <= config('settings.grade_for_project'); $i++)
                 <td>------</td>
             @endfor
             <td>------</td>
@@ -49,7 +49,7 @@
                         .{{$project->extension}}</a></td>
                 @include('include.grade')
                 <td class="text-center">
-                    @if($project->Grade->count() < config('settings.max_grade_add')
+                    @if($project->Grade->count() < config('settings.grade_for_project')
                     && $project->Grade->where('user_id', auth()->user()->id)->count() == 0
                     && $user->Grade->count() < config('settings.max_grade_add'))
                         <a class="btn btn-sm btn-default js-form-show" href="#">Add grade</a>
