@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th>Project name</th>
-            @for($i=1; $i <= config('settings.max_project_upload'); $i++)
+            @for($i=1; $i <= config('settings.max_grade_add'); $i++)
                 <th>Note {{$i}}</th>
             @endfor
             <th>Media</th>
@@ -36,7 +36,7 @@
         @endforeach
         <tr class="text-center text-info info">
             <td>------</td>
-            @for($i=1; $i <= config('settings.max_project_upload'); $i++)
+            @for($i=1; $i <= config('settings.max_grade_add'); $i++)
                 <td>------</td>
             @endfor
             <td>------</td>

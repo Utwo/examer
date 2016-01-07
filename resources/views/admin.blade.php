@@ -9,6 +9,7 @@
             <th>User</th>
             <th>Submited project</th>
             <th>Submited grades</th>
+            <th>Recieved grades</th>
             <th>Media</th>
         </tr>
         </thead>
@@ -16,8 +17,13 @@
         @foreach($users as $user)
             <tr>
                 <td>{{$user->name}}</td>
-                <td>{{$user->Project->count()}} / {{env('MAX_PROJECT_UPLOAD')}}</td>
-                <td>{{$user->Grade->count()}} / {{env('MAX_GRADE_ADD')}}</td>
+                <td>{{$user->Project->count()}} / {{config('settings.max_project_upload')}}</td>
+                <td>{{$user->Grade->count()}} / {{config('settings.max_grade_add')}}</td>
+                <td>
+                    @foreach($user->Project as $project)
+                        {{$project->Grade->pluck('grade')}}
+                    @endforeach
+                </td>
                 <td>{{$user->Media}}</td>
             </tr>
         @endforeach

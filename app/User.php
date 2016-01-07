@@ -49,8 +49,8 @@ class User extends Model implements AuthenticatableContract,
     public function getMediaAttribute(){
         $sum = 0;
         $projects = $this->Project;
-        if($projects->count() == 0){
-            return 0;
+        if($projects->count() < config('settings.max_project_upload')){
+            return null;
         }
         foreach($projects as $project){
             $media_proj = $project->Media;
