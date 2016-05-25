@@ -5,11 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model {
-    protected $fillable = ['name', 'extension', 'user_id'];
+    protected $fillable = ['name', 'extension', 'user_id', 'subject_id'];
 
     public function User()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Subject()
+    {
+        return $this->belongsTo(Subject::class);
     }
 
     public function Grade()

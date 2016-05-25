@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($user->Project as $project)
+        @foreach($my_projects as $project)
             <tr class="warning table-project-own">
                 <td><a title="download project"
                        href="{{route('download_project', ['id' => $project->id])}}">{{$project->name}}
@@ -42,7 +42,7 @@
             <td>------</td>
             <td>------</td>
         </tr>
-        @foreach($projects as $project)
+        @foreach($other_projects as $project)
             <tr class="table-project-other">
                 <td><a title="download project"
                        href="{{route('download_project', ['id' => $project->id])}}">{{$project->name}}
@@ -51,7 +51,7 @@
                 <td class="text-center">
                     @if($project->Grade->count() < config('settings.grade_for_project')
                     && $project->Grade->where('user_id', auth()->user()->id)->count() == 0
-                    && $user->Grade->count() < config('settings.max_grade_add'))
+                    && $given_grades->count() < config('settings.max_grade_add'))
                         <a class="btn btn-sm btn-default js-form-show" href="#">Add grade</a>
                         <div class="form-grade mfp-hide container-fluid text-center">
                             <h4><a title="download project"

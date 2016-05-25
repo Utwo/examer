@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Guzzle\Tests\Service\Mock\Command\Sub\Sub;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -27,7 +28,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'email', 'role'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -44,6 +45,16 @@ class User extends Model implements AuthenticatableContract,
     public function Grade()
     {
         return $this->hasMany(Grade::class);
+    }
+
+    public function Subject()
+    {
+        return $this->hasMany(Subject::class);
+    }
+
+    public function StudentSubject()
+    {
+        return $this->belongsToMany(Subject::class)->withTimestamps();
     }
 
     public function getMediaAttribute(){

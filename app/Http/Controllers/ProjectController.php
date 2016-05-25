@@ -23,7 +23,7 @@ class ProjectController extends Controller {
         if ($request->hasFile('upload') && $request->file('upload')->isValid()) {
             $extension = $request->file('upload')->getClientOriginalExtension();
 
-            $project = Project::create(['name' => $request->name, 'extension' => $extension, 'user_id' => auth()->user()->id]);
+            $project = Project::create(['name' => $request->name, 'extension' => $extension, 'user_id' => auth()->user()->id, 'subject_id' => $request->subject_id]);
             Storage::put('/projects/' . $project->id . '.' . $extension,
                 file_get_contents($request->file('upload')->getRealPath()));
             $request->session()->flash('notification', 'Upload successful');

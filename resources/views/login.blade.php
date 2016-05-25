@@ -5,23 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h2 class="text-center">Login</h2>
-
-            <form method="post" action="{{route('post_login')}}">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-
-                <div class="form-group">
-                    <label>Name</label>
-                    <input class="form-control" placeholder="pmir1541" type="text" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" type="password" name="password" required>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-primary btn-block" type="submit">Log in</button>
-                </div>
-            </form>
+            <a class="btn btn-default" href="http://localhost:3999/#/scopes?client_id=123456&redirect_uri=http://examiner.dev:8000/login_callback&response_type=code&scope=basic_user_read,advanced_user_read&state=123">Login in with UBB</a>
         </div>
     </div>
 @endsection

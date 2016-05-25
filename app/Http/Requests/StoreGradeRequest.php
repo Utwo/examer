@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use App\Project;
+use App\Subject;
+use Illuminate\Support\Facades\Gate;
 
 class StoreGradeRequest extends Request
 {
@@ -15,10 +17,17 @@ class StoreGradeRequest extends Request
     public function authorize()
     {
         $project = Project::with('Grade')->findOrFail($this->project_id);
-        if($project->Grade->count() >= config('settings.grade_for_project')){
+        $subject = $project->Subject;
+        $subject_project = $subject->Project->load(['Grade' => function ($query) {
+            return $query->where('user_id', auth()->user()->id);
+        }]);
+        if(! Gate::allows('user_subscribed_subject', Subject::findOrFail($subject->id))){
             return false;
         }
-        if(auth()->user()->Grade->count() >= config('settings.max_grade_add')){
+        if($subject_project->pluck('Grade')->collapse()->count() >= config('settings.max_grade_add')){
+            return false;
+        }
+        if($project->Grade->count() >= config('settings.grade_for_project')){
             return false;
         }
         if($project->user_id == auth()->user()->id){

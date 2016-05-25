@@ -11,25 +11,25 @@
 |
 */
 Route::group(['middleware' => 'guest'], function () {
-    get('/login', ['as' => 'show_login', function () {
-        return view('login');
-    }]);
-
-    post('/login', ['as' => 'post_login', 'uses' => 'AuthController@authenticate']);
+    Route::get('login', ['as' => 'show_login', 'uses' => 'AuthController@show_login']);
+    Route::get('ubb-login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
+    Route::get('login_callback', ['as' => 'login', 'uses' => 'AuthController@handleProviderCallback']);
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    get('/', ['as' => 'profile', 'uses' => 'AuthController@show']);
-    get('/admin', ['as' => 'admin', 'uses' => 'AuthController@admin']);
+    Route::get('/', ['as' => 'profile', 'uses' => 'AuthController@show']);
 
-    post('/grade', ['as' => 'add_grade', 'uses' => 'GradeController@store']);
+    Route::post('/grade', ['as' => 'add_grade', 'uses' => 'GradeController@store']);
 
-    post('/project', ['as' => 'add_project', 'uses' => 'ProjectController@store']);
-    delete('/project', ['as' => 'delete_project', 'uses' => 'ProjectController@delete']);
-    get('/project/{id}', ['as' => 'download_project', 'uses' => 'ProjectController@download']);
+    Route::post('/project', ['as' => 'add_project', 'uses' => 'ProjectController@store']);
+    Route::delete('/project', ['as' => 'delete_project', 'uses' => 'ProjectController@delete']);
+    Route::get('/project/{id}', ['as' => 'download_project', 'uses' => 'ProjectController@download']);
 
-    get('logout', ['as' => 'logout', function () {
-        Auth::logout();
-        return redirect()->route('show_login');
-    }]);
+    Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
+
+    Route::group(['middleware' => 'role:teacher'], function () {
+        Route::get('/admin', ['as' => 'admin', 'uses' => 'AuthController@admin']);
+        Route::get('/admin/subject', ['as' => 'get_subject', 'uses' => 'SubjectController@index']);
+        Route::put('/subject', ['as' => 'update_subject', 'uses' => 'SubjectController@update']);
+    });
 });

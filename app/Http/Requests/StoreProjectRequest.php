@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Subject;
+use Illuminate\Support\Facades\Gate;
 
 class StoreProjectRequest extends Request {
     /**
@@ -12,10 +14,13 @@ class StoreProjectRequest extends Request {
      */
     public function authorize()
     {
-        if (auth()->user()->Project->count() >= config('settings.max_project_upload')) {
-            return false;
+        $projects = Subject::with(['Project' => function($query){
+            return $query->where('user_id', auth()->user()->id);
+        }])->findOrFail(request()->subject_id);
+        if ($projects->count() < config('settings.max_project_upload') && Gate::allows('user_subscribed_subject', Subject::findOrFail(request()->subject_id))) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -27,6 +32,7 @@ class StoreProjectRequest extends Request {
     {
         return [
             'name' => 'required|string',
+            'subject_id' => 'required|integer|exists:subjects,id',
             'upload' => 'required|mimes:doc,docx,rtf,txt,pdf,ppt|max:' . config('filesystems.max_file_size')
         ];
     }

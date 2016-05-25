@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'ubb' => [
+        'client_id' => env('UBB_ID'),
+        'client_secret' => env('UBB_SECRET'),
+        'redirect' => env('APP_URL')."/login_callback",
+    ],
 ];
