@@ -23,6 +23,7 @@ class SubjectController extends Controller
 
     public function update(Request $request)
     {
+        //TODO verifica ca subjectul sa fie al meu
         $subject = Subject::findOrFail($request->id);
         $subject->update($request->all());
         return redirect()->route('get_subject');

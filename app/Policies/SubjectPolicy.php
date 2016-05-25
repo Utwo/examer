@@ -15,11 +15,11 @@ class SubjectPolicy
      */
     public function user_subscribed_subject(User $user, Subject $subject)
     {
-        $user = User::whereHas('StudentSubject', function ($query) use ($subject) {
+        $subject_user = User::whereHas('StudentSubject', function ($query) use ($subject) {
             return $query->where('id', $subject->id)->where('active', 1);
-        })->find(auth()->user()->id);
+        })->find($user->id);
 
-        if ($user == null) {
+        if ($subject_user == null) {
             return false;
         }
         return true;

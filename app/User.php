@@ -13,7 +13,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract,
     AuthorizableContract,
-    CanResetPasswordContract {
+    CanResetPasswordContract
+{
     use Authenticatable, Authorizable, CanResetPassword;
 
     /**
@@ -57,15 +58,27 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany(Subject::class)->withTimestamps();
     }
 
-    public function getMediaAttribute(){
+    public function getImageAttribute()
+    {
+        $client = new \GuzzleHttp\Client([
+            'headers' => ['Authorization' => 'Bearer ' . $this->access_token]
+        ]);
+        $request = $client->request('GET', config('services.ubb.ubb_api') . config('services.ubb.ubb_api_version') . '/user/profile-img');
+        $body = (string)$request->getBody();
+        $header = $request->getHeader('Content-Type')[0];
+        return 'data:' . $header . ';base64,' . base64_encode($body);
+    }
+
+    public function getMediaAttribute()
+    {
         $sum = 0;
         $projects = $this->Project;
-        if($projects->count() < config('settings.max_project_upload')){
+        if ($projects->count() < config('settings.max_project_upload')) {
             return null;
         }
-        foreach($projects as $project){
+        foreach ($projects as $project) {
             $media_proj = $project->Media;
-            if(is_null($media_proj)){
+            if (is_null($media_proj)) {
                 return null;
             }
             $sum += $project->Media;

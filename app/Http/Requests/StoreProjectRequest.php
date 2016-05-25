@@ -16,8 +16,8 @@ class StoreProjectRequest extends Request {
     {
         $projects = Subject::with(['Project' => function($query){
             return $query->where('user_id', auth()->user()->id);
-        }])->findOrFail(request()->subject_id);
-        if ($projects->count() < config('settings.max_project_upload') && Gate::allows('user_subscribed_subject', Subject::findOrFail(request()->subject_id))) {
+        }])->findOrFail($this->subject_id);
+        if ($projects->Project->count() < config('settings.max_project_upload') && Gate::allows('user_subscribed_subject', Subject::findOrFail($this->subject_id))) {
             return true;
         }
         return false;

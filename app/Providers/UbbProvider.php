@@ -12,19 +12,18 @@ class UbbProvider extends AbstractProvider implements ProviderInterface
 
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('http://localhost:3999/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase(config('services.ubb.ubb_url') . '/oauth/authorize', $state);
     }
 
     protected function getTokenUrl()
     {
-        return 'http://licenta-back.dev/oauth/access_token';
+        return config('services.ubb.ubb_api') . '/oauth/access_token';
     }
 
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            //'headers' => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)],
-            'form_params'    => $this->getTokenFields($code),
+            'form_params' => $this->getTokenFields($code),
         ]);
         return $this->parseAccessToken($response->getBody());
     }
@@ -38,7 +37,7 @@ class UbbProvider extends AbstractProvider implements ProviderInterface
 
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('http://licenta-back.dev/api/v1/me?with=Role', [
+        $response = $this->getHttpClient()->get(config('services.ubb.ubb_api') . config('services.ubb.ubb_api_version') . '/me?with=Role', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token['access_token'],
             ],
@@ -54,10 +53,9 @@ class UbbProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            //'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email']
         ]);
     }
 }

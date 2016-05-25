@@ -16,7 +16,7 @@
                                 <input type="hidden" name="_method" value="PUT">
                                 <input type="hidden" name="active" value="0">
                                 <input type="hidden" name="id" value="{{ $subject->id }}">
-                                <input type="checkbox" name="active" value="1">Active
+                                <input type="checkbox" name="active" value="1" {{$subject->active ? 'checked':''}}>Active
                                 <button class="btn btn-primary btn-sm" type="submit">Update</button>
                             </form>
                         </div>

@@ -39,5 +39,8 @@ return [
         'client_id' => env('UBB_ID'),
         'client_secret' => env('UBB_SECRET'),
         'redirect' => env('APP_URL')."/login_callback",
+        'ubb_url' => 'http://localhost:3999',
+        'ubb_api' => 'http://licenta-back.dev',
+        'ubb_api_version' => '/api/v1'
     ],
 ];
