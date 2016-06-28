@@ -35,6 +35,9 @@ class AuthController extends Controller
     public function handleProviderCallback()
     {
         $user = Socialite::with('ubb')->user();
+        if(array_search('admin', array_column($user->user['role'], 'name')) !== false){
+            return redirect()->route('show_login')->withErrors('No support for admin users was added.');
+        }
         $role = array_search('teacher', array_column($user->user['role'], 'name')) === false ? 'student' : 'teacher';
         $auth_user = User::firstOrCreate([
             'email' => $user->user['email'],

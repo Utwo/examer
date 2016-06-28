@@ -24,6 +24,9 @@ class HomeController extends Controller
         $user = auth()->user()->load(['StudentSubject' => function ($query) {
             return $query->where('active', 1);
         }]);
+        if($user->StudentSubject->count() == 0){
+            return view('student.no-subject')->withUser($user);
+        }
         $filter_subject = $request->has('subject') ? $request->subject : $user->StudentSubject->first()->name;
 
         $subject = Subject::where('name', $filter_subject)->whereHas('StudentUser', function ($query) {
